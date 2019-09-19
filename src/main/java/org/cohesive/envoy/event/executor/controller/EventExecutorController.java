@@ -6,7 +6,10 @@ import javax.inject.Inject;
 
 import org.cohesive.envoy.event.Monitor;
 import org.cohesive.envoy.event.executor.service.EventExecutorService;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.cohesive.envoy.event.monitor.HttpEventMonitor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,9 +18,15 @@ public class EventExecutorController {
 	@Inject
 	EventExecutorService service;
 	
-	@RequestMapping("/monitors")
-    public List<Monitor> monitors() {
+	
+	@GetMapping("/monitors")
+    public List<Monitor> getMonitors() {
 		return service.getMonitors();
     }
+	
+	@PostMapping("/monitors")
+    public void addMonitor(@RequestBody HttpEventMonitor monitor) {
+		service.addMonitor(monitor);
+    }	
 
 }

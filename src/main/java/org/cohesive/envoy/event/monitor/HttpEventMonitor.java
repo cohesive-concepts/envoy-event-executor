@@ -1,6 +1,9 @@
 package org.cohesive.envoy.event.monitor;
 
 import java.util.Date;
+import java.util.concurrent.ScheduledExecutorService;
+
+import javax.inject.Inject;
 
 import org.cohesive.envoy.event.Monitor;
 import org.cohesive.envoy.event.MonitorEvent;
@@ -11,15 +14,18 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
-public class HttpEventMonitor extends Monitor {
+public class HttpEventMonitor extends ExecutorAwareMonitor {
 
-	private String url;
-	private String appId;
+	private String url = "https://www.google.com";
+	private String appId = "test-app";
+	
+	protected Long delay = 10000L;
+	protected Long interval = 10000L;
 	
 	public HttpEventMonitor(String url, String appId) {
-		super();
 		this.url = url;
 		this.appId = appId;
+		schedule(delay, interval, executorService );
 	}
 
 	@Override
